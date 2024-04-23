@@ -1,31 +1,16 @@
-# Rethinking Alignment in Video Super-Resolution Transformers（NIPS 2022）
-[Shuwei Shi*](https://scholar.google.com/citations?hl=en&user=2ZAstoQAAAAJ), [Jinjin Gu*](https://scholar.google.com/citations?hl=en&user=uMQ-G-QAAAAJ), [Liangbin Xie](https://liangbinxie.github.io), [Xintao Wang](https://scholar.google.com/citations?hl=en&user=FQgZpQoAAAAJ), [Yujiu Yang](https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en) and [Chao Dong](https://scholar.google.com.hk/citations?user=OSDCB0UAAAAJ&hl=zh-CN) <br>
-[arxiv](https://arxiv.org/abs/2207.08494)
+# Recurrent Hybrid Attention Transfomer (RHAT)
+[Manopat Chankla](https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3BORb2sHfDR%2BCDTMolAq1ecA%3D%3D)
 **|**
-[pretrained models](https://drive.google.com/drive/folders/1SyCIPlCZp4SkORMaUVKzT0M07nDAhdrl?usp=sharing)
-**|**
-[visual results](https://drive.google.com/drive/folders/1SyCIPlCZp4SkORMaUVKzT0M07nDAhdrl?usp=sharing)
 
-[![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2207.08494)
-![visitors](https://visitor-badge.glitch.me/badge?page_id=XPixelGroup/RethinkVSRAlignment)
-[![GitHub Stars](https://img.shields.io/github/stars/XPixelGroup/RethinkVSRAlignment?style=social)](https://github.com/XPixelGroup/RethinkVSRAlignment)
 
-This repository is the official PyTorch implementation of "Rethinking Alignment in Video Super-Resolution Transformers"
-([arxiv](https://arxiv.org/pdf/2207.08494.pdf),[pretrained models](https://drive.google.com/drive/folders/1SyCIPlCZp4SkORMaUVKzT0M07nDAhdrl?usp=sharing)). PSRT-recurrent ahcieves state-of-the-art performance in
-- Video SR (REDS, Vimeo90K, Vid4)
+This repository is the PyTorch implementation of Recurrent Hybrid Attention Transformer, a part of my senior project at Chulalongkorn University. You can find the project ([report](https://drive.google.com/file/d/1FtXInDeOUPHavFag_lv-trP-5SJg20Vn/view?usp=drive_link)) here.
 
-> The alignment of adjacent frames is considered an essential operation in video super-resolution (VSR). Advanced VSR models, including the latest VSR Transformers, are generally equipped with well-designed alignment modules. However, the progress of the self-attention mechanism may violate this common sense. In this paper, we rethink the role of alignment in VSR Transformers and make several counter-intuitive observations. Our experiments show that: (i) VSR Transformers can directly utilize multi-frame information from unaligned videos, and (ii) existing alignment methods are sometimes harmful to VSR Transformers. These observations indicate that we can further improve the performance of VSR Transformers simply by removing the alignment module and adopting a larger attention window. Nevertheless, such designs will dramatically increase the computational burden, and cannot deal with large motions. Therefore, we propose a new and efficient alignment method called patch alignment, which aligns image patches instead of pixels. VSR Transformers equipped with patch alignment could demonstrate state-of-the-art performance on multiple benchmarks. Our work provides valuable insights on how multi-frame information is used in VSR and how to select alignment methods for different networks/datasets.
-## Patch Alignment
+We adopted the idea from "Rethinking Alignment in Video Super-Resolution Transformers"
+([PSRT_arxiv](https://arxiv.org/pdf/2207.08494.pdf)) and extended the idea to hybrid attention context, proposed in "Activating More Pixels in Image Super-Resolution Transformer" ([HAT_arxiv](https://arxiv.org/abs/2309.05239)). 
+
+## Recurrent Hybrid Attention Transformer
 <p align="center">
-  <img width="800" src="assets/patch_warp.png">
-</p>
-
-## Update
-[2022/10/31] refine codes and release visual results.
-
-## PSRT-recurrent
-<p align="center">
-  <img width="800" src="assets/PSRT-recurrent.png">
+  <img width="800" src="assets/RHAT_Arch.png">
 </p>
 
 ## Requirements
@@ -34,55 +19,43 @@ This repository is the official PyTorch implementation of "Rethinking Alignment 
 > - Platforms: Ubuntu 18.04, cuda-11.1
 
 ## Quick Testing
-Download [pretrained models](https://drive.google.com/drive/folders/1SyCIPlCZp4SkORMaUVKzT0M07nDAhdrl?usp=sharing) and put them in the appropriate folder. Prepare the [dataset](https://github.com/XPixelGroup/BasicSR/blob/master/docs/DatasetPreparation.md#Video-Super-Resolution) and change the file path in the inference code.
+ Prepare the [dataset](https://github.com/XPixelGroup/BasicSR/blob/master/docs/DatasetPreparation.md#Video-Super-Resolution) and change the file path in the inference code.
 
 ```bash
 # download code
-git clone https://github.com/XPixelGroup/RethinkVSRAlignment
-cd RethinkVSRAlignment
+git clone https://github.com/SamaSa1710/Recurrent-Hybrid-Attention-Transformer-Senior-Project-.git
+cd Recurrent-Hybrid-Attention-Transformer-Senior-Project-
 pip install -r requirements.txt
 pip install basicsr
 python setup.py develop
 
-# video sr trained on REDS, tested on REDS4
-python inference_psrtrecurrent_reds.py
-
 # video sr trained on Vimeo, tested on Vimeo
-
-python inference_psrtrecurrent_vimeo90k.py --vimeo data/meta_info_Vimeo90K_train_GT.txt --device 0
+python inference_RHAT_vimeo90k.py --vimeo data/meta_info_Vimeo90K_test_GT.txt --device 0
 ```
 ## Training
 Prepare the corresponding datasets follwing the quick test stage. For better I/O speed, you can follow [data prepare instruction](https://github.com/XPixelGroup/BasicSR/blob/master/docs/DatasetPreparation.md#Video-Super-Resolution) to convert `.png` datasets to `.lmdb` datasets.
 
 ```bash
 # download code
-git clone https://github.com/XPixelGroup/RethinkVSRAlignment
-cd RethinkVSRAlignment
+git clone https://github.com/SamaSa1710/Recurrent-Hybrid-Attention-Transformer-Senior-Project-.git
+cd Recurrent-Hybrid-Attention-Transformer-Senior-Project-
 pip install -r requirements.txt
 pip install basicsr
 python setup.py develop
 
-# video sr trained on REDS, tested on REDS4
-bash dist_train.sh 8 options/4126_PSRTRecurrent_mix_precision_REDS_600K_N16.yml
-
 # video sr trained on Vimeo, validated on Vid4
 
-bash dist_train.sh 8 options/5123_PSRTRecurrent_mix_precision_Vimeo_300K_N14.yml
+bash dist_train.sh 1 options/train/RHAT_mix_precision_Vimeo_300K_HAT.yml
 ```
 ## Results
 <p align="center">
-  <img width="800" src="assets/Results.png">
+  <img width="800" src="assets/results_table.PNG">
 </p>
 
-## Citation
-```
-@article{shi2022rethinking,
-  title={Rethinking Alignment in Video Super-Resolution Transformers},
-  author={Shi, Shuwei and Gu, Jinjin and Xie, Liangbin and Wang, Xintao and Yang, Yujiu and Dong, Chao},
-  journal={arXiv preprint arXiv:2207.08494},
-  year={2022}
-}
+Please noted that the results are based on our experiments. We adopted pre-train model from HAT and performed frame-wise operation for Frame-wise HAT's results. Meanwhile, we trained PSRT and RHAT from scratch using our training configurations, which can be found in our [report](https://drive.google.com/file/d/1FtXInDeOUPHavFag_lv-trP-5SJg20Vn/view?usp=drive_link).
 
-```
+
 ## Acknowledgment
-Our codes was built on [BasicSR](https://github.com/XPixelGroup/BasicSR) and partially borrowed from [mmediting](https://github.com/open-mmlab/mmediting).
+Our codes was built on [PSRT](https://github.com/XPixelGroup/RethinkVSRAlignment)
+and partially borrowed from [HAT](https://github.com/XPixelGroup/HAT) 
+and from [BasicSR](https://github.com/XPixelGroup/BasicSR).
