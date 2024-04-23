@@ -23,8 +23,8 @@ We adopted the idea from "Rethinking Alignment in Video Super-Resolution Transfo
 
 ```bash
 # download code
-git clone https://github.com/SamaSa1710/Recurrent-Hybrid-Attention-Transformer-Senior-Project-.git
-cd Recurrent-Hybrid-Attention-Transformer-Senior-Project-
+git clone https://github.com/SamaSa1710/RHAT.git
+cd RHAT
 pip install -r requirements.txt
 pip install basicsr
 python setup.py develop
@@ -37,8 +37,8 @@ Prepare the corresponding datasets follwing the quick test stage. For better I/O
 
 ```bash
 # download code
-git clone https://github.com/SamaSa1710/Recurrent-Hybrid-Attention-Transformer-Senior-Project-.git
-cd Recurrent-Hybrid-Attention-Transformer-Senior-Project-
+git clone https://github.com/SamaSa1710/RHAT.git
+cd RHAT
 pip install -r requirements.txt
 pip install basicsr
 python setup.py develop
